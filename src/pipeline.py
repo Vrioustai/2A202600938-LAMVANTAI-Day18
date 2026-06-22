@@ -34,7 +34,8 @@ def build_pipeline():
     # Step 2: Enrichment (M5)
     t0 = time.time()
     print(f"\n[2/4] Enriching {len(all_chunks)} chunks (M5, 1 API call/chunk)...", flush=True)
-    enriched = enrich_chunks(all_chunks)
+    # Tối ưu token theo yêu cầu: dùng fallback (methods=[]) thay vì "combined"
+    enriched = enrich_chunks(all_chunks, methods=[])
     if enriched:
         all_chunks = [{"text": e.enriched_text, "metadata": e.auto_metadata} for e in enriched]
         print(f"  ✓ Enriched {len(enriched)} chunks ({time.time()-t0:.1f}s)", flush=True)
